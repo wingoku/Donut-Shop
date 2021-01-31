@@ -105,4 +105,14 @@ public class OrderServiceImpl implements OrderService {
 		return new ResponseBody(true, "", orderList);
 	}
 
+	@Override
+	public ResponseBody getAllOrdersWitWaitTime() {
+		List<Order> orderList = shop.getAllOrderWithWaitTime();
+		
+		if(orderList.isEmpty()) {
+			return new ResponseBody(false, "No more orders in queue");
+		}
+		
+		return new ResponseBody(true, "", orderList);
+	}
 }
