@@ -36,7 +36,7 @@ public class Shop {
         ordersQueue = new PriorityQueue<Order>(shopComparator);
     }
 
-    public Order addOrder(int customerID, int quantity) {
+    public Order addOrder(int customerID, int quantity) throws IllegalArgumentException {
         if(ordersMap.containsKey(customerID))
             throw new IllegalArgumentException("Order for customer id: "+ customerID + " already exists");
 
@@ -84,6 +84,10 @@ public class Shop {
 
         //O(log N)
         return ordersQueue.poll();
+    }
+    
+    public Order getDummyOrder() {
+    	return dummyOrder;
     }
     
     //expensive method since we're calling getAllOrders() which costs O(N log N). 
