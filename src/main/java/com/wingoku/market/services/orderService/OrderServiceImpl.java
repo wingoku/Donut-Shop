@@ -52,16 +52,16 @@ public class OrderServiceImpl implements OrderService {
 		
 		boolean addedSuccessfully = false;
 		String message = "";
-		Order createdOrder = null;
+		Order createdOrder = shop.getDummyOrder();
 		
 		try {
 			createdOrder = shop.addOrder(customerID, quantity);
 			addedSuccessfully = true;
 			message = "Order added successfully for customer: " + customerID;
 		}
-		catch (Exception e) {
+		catch (IllegalArgumentException e) {
 			e.printStackTrace();
-
+			
 			message = "Order failed for customer: " + customerID + " Reason: "+ e.getMessage();
 		}
 		return Pair.of(createdOrder, new ResponseBody(addedSuccessfully, message, createdOrder));
