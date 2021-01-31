@@ -67,4 +67,30 @@ public class OrderServiceImpl implements OrderService {
 		return Pair.of(createdOrder, new ResponseBody(addedSuccessfully, message, createdOrder));
 	}
 	
+	@Override
+	public <T> ResponseBody cancel(T id) {
+		if (!(id instanceof Integer)) 
+			throw new IllegalArgumentException("Expecting argument of type Integer");
+
+		int customerID = (int) id;
+		ResponseBody response = cancelOrder(customerID);
+
+		log.info("cancel: "+customerID + " response: "+ response.isSuccess());
+		if(response.isSuccess()) {
+			Order order = orderRepository.findByCustomerID(customerID);
+			
+			if(order != null) {
+				orderRepository.delete(order);
+			}
+		}
+
+		return response;
+	}
+
+	private ResponseBody cancelOrder(int customerID) {
+		log.info("canceling order for customer: "+customerID);
+		boolean isCancelled = shop.cancelOrder(customerID);
+		return new ResponseBody(isCancelled, "Order cancellation for customer: "+ customerID);
+	}
+
 }
