@@ -93,4 +93,16 @@ public class OrderServiceImpl implements OrderService {
 		return new ResponseBody(isCancelled, "Order cancellation for customer: "+ customerID);
 	}
 
+	@Override
+	public ResponseBody getAllOrders() {
+		System.out.print("INSIDE GET ALL ORDERSSSSS");
+		List<Order> orderList = shop.getAllOrders();
+		
+		if(orderList.isEmpty()) {
+			return new ResponseBody(false, "No more orders in queue");
+		}
+		
+		return new ResponseBody(true, "", orderList);
+	}
+
 }
