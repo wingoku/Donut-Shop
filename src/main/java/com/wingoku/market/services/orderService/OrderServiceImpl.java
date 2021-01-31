@@ -115,4 +115,25 @@ public class OrderServiceImpl implements OrderService {
 		
 		return new ResponseBody(true, "", orderList);
 	}
+
+	@Override
+	public ResponseBody getOrderPosition(int customerID) {
+		Pair<Integer, Order> pair = shop.getPositionInQueue(customerID);
+		boolean isSuccess = false;
+		int position = pair.getFirst();
+		Order order = pair.getSecond();
+		
+		String message = "";
+		
+		if(position == -1) {
+			isSuccess = false;
+			message = "Order not found";
+		}
+		else {
+			isSuccess = true;
+			message = "Position in queue is "+ position;
+		}
+		
+		return new ResponseBody(isSuccess, message, order);
+	}
 }
