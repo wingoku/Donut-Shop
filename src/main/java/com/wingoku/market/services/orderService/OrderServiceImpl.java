@@ -136,4 +136,14 @@ public class OrderServiceImpl implements OrderService {
 		
 		return new ResponseBody(isSuccess, message, order);
 	}
+
+	@Override
+	public ResponseBody getNextOrder() {
+		Order order = shop.getNextOrder();
+		
+		if(order.getCustomerID() == Integer.MIN_VALUE) {
+			return new ResponseBody(false, "Next Order Not Found. No more orders in queue");
+		}
+		return new ResponseBody(true, "", order);
+	}
 }
